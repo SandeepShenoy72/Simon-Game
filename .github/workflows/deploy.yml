@@ -1,49 +1,39 @@
 name: Deploy Application
-
 on:
   push:
     branches:
       - main
-
 jobs:
   build:
     name: Build the code
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: 16
-
       - name: Install dependencies
         run: npm install
-
       - name: Build the application
         run: npm run build
-
   deploy:
     name: Deploy to Environment
     needs: build
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-
       - name: Create Deployment
         id: create_deployment
         uses: octokit/request-action@v2.x
         with:
-          route: POST /repos/${{ github.repository_owner }}/${{ github.event.repository.name }}/deployments
+          route: POST /repos/${{ github.repository_owner }}/${{
+            github.event.repository.name }}/deployments
           ref: main
           environment: production
-          required_contexts: []
           auto_merge: false
           description: Deploying the application
-
       - name: Deploy application
         run: echo "Deploying to production environment..."
