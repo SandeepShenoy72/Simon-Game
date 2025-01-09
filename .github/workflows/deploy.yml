@@ -21,7 +21,6 @@ jobs:
           route: POST /repos/${{ github.repository_owner }}/${{ github.event.repository.name }}/deployments
           ref: main
           environment: production
-          required_contexts: []
           auto_merge: false
           description: Deploying a dummy app
 
